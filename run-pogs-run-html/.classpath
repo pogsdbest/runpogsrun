@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" combineaccessrules="false" path="/run-pogs-run"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/run-pogs-run/libs/gdx.jar" sourcepath="/run-pogs-run/libs/gdx-sources.jar"/>
+	<classpathentry kind="lib" path="/run-pogs-run/libs/gdx-sources.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gdx-backend-gwt.jar" sourcepath="war/WEB-INF/lib/gdx-backend-gwt-sources.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gdx-backend-gwt-sources.jar"/>
+	<classpathentry kind="lib" path="/run-pogs-run/libs/bodyeditor-loader.jar" sourcepath="/run-pogs-run/libs/bodyeditor-loader-sources.jar"/>
+	<classpathentry kind="lib" path="/run-pogs-run/libs/bodyeditor-loader-sources.jar"/>
+	<classpathentry kind="lib" path="/run-pogs-run/libs/tween-engine-api.jar" sourcepath="/run-pogs-run/libs/tween-engine-api-sources.jar"/>
+	<classpathentry kind="lib" path="/run-pogs-run/libs/tween-engine-api-sources.jar"/>
+</classpath>
