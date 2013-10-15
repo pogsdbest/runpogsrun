@@ -2,54 +2,34 @@ package com.pogs.runpogsrun;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.brashmonkey.spriter.Spriter;
+import com.brashmonkey.spriter.player.SpriterPlayer;
+import com.brashmonkey.spriter.xml.FileHandleSCMLReader;
+import com.pogs.runpogsrun.util.SpriterDrawer;
+import com.pogs.runpogsrun.util.SpriterLoader;
 
 public class RunPogsRunGame implements ApplicationListener {
-	private OrthographicCamera camera;
+
+	private Stage stage;
 	private SpriteBatch batch;
-	private Texture texture;
-	private Sprite sprite;
-	
+	private SpriterDrawer drawer;
+	private SpriterPlayer player;
+
 	@Override
-	public void create() {		
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
-		
-		camera = new OrthographicCamera(1, h/w);
+	public void create() {
 		batch = new SpriteBatch();
+		this.stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
+				false, this.batch);
 		
-		texture = new Texture(Gdx.files.internal("data/libgdx.png"));
-		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		SpriterLoader loader = new SpriterLoader(true);
+		Spriter spriter = FileHandleSCMLReader.getSpriter(Gdx.files.internal("scml/pogs.scml"), loader);
+		player = new SpriterPlayer(spriter,0,loader);
+		player.setAnimation("idle", 1, 20);
 		
-		TextureRegion region = new TextureRegion(texture, 0, 0, 512, 275);
-		
-		sprite = new Sprite(region);
-		sprite.setSize(0.9f, 0.9f * sprite.getHeight() / sprite.getWidth());
-		sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
-		sprite.setPosition(-sprite.getWidth()/2, -sprite.getHeight()/2);
-	}
-
-	@Override
-	public void dispose() {
-		batch.dispose();
-		texture.dispose();
-	}
-
-	@Override
-	public void render() {		
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		sprite.draw(batch);
-		batch.end();
+		drawer = new SpriterDrawer(batch);
 	}
 
 	@Override
@@ -57,10 +37,28 @@ public class RunPogsRunGame implements ApplicationListener {
 	}
 
 	@Override
+	public void render() {
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClearColor(1, 1, 1, 1);
+		this.stage.act();
+		stage.draw();
+		batch.begin();
+		drawer.draw(player);
+		player.update(100, 100);
+		batch.end();
+	}
+
+	@Override
 	public void pause() {
+		
 	}
 
 	@Override
 	public void resume() {
 	}
+
+	@Override
+	public void dispose() {
+	}
+	
 }
