@@ -35,6 +35,7 @@ import com.brashmonkey.spriter.objects.SpriterBone;
 import com.brashmonkey.spriter.objects.SpriterModObject;
 import com.brashmonkey.spriter.objects.SpriterObject;
 import com.discobeard.spriter.dom.SpriterData;
+import com.game.framework.utils.L;
 
 /**
  * SpriterAbstractPlayer is meant to be a base for SpriterPlayer.

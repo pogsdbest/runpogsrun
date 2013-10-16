@@ -19,6 +19,8 @@ package com.pogs.runpogsrun.util;
 
 import java.util.Set;
 
+import com.badlogic.gdx.Application;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -52,8 +54,26 @@ public class SpriterLoader extends FileLoader<Sprite> implements Disposable{
 
 	@Override
 	public void load(final Reference ref, String path) {
-		FileHandle f = Gdx.files.internal(path);
-		if(!f.exists()) return;
+		//System.out.println(path);
+		FileHandle f = null;
+		switch(Gdx.app.getType()) {
+		   case Android:
+		   case Desktop:
+			   f = Gdx.files.internal(path);
+			   break;
+		   case iOS:
+			   f = Gdx.files.absolute(path);
+			   break;
+		default:
+			break;
+		}
+		if(f==null) return;//other platform. yet not tested
+		
+		if(!f.exists()) {
+			System.out.println(path);
+			System.out.println("image not exist");
+			return;
+		}
 		if(packer == null && this.pack)
 			packer = new PixmapPacker(2048, 2048, Pixmap.Format.RGBA8888, 2, true);
 		final Pixmap pix = new Pixmap(f);
@@ -61,7 +81,7 @@ public class SpriterLoader extends FileLoader<Sprite> implements Disposable{
 		if(packer != null)
 			packer.pack(ref.fileName, pix);
 		
-		files.put(ref, null);//Put first the reference into the map, in the next frame, the null value will be replaced with the actual texture.
+		//files.put(ref,null);//Put first the reference into the map, in the next frame, the null value will be replaced with the actual texture.
 		
 		//Gdx.app.postRunnable(new Runnable(){ //Post the creation of a OpenGL Texture to the LibGDX rendering thread.
 			//This is necessary if you are loading the scml file asynchrouously with more than one thread.
@@ -110,13 +130,13 @@ public class SpriterLoader extends FileLoader<Sprite> implements Disposable{
 	@Override
 	public void finishLoading() { //This method basically calls the method to create an atlas for all loaded textures
 		if(this.pack)
-			//Gdx.app.postRunnable(new Runnable(){//Has to be called in the rendering thread since OpenGL textures have to be created
-			//	@Override
-			//	public void run() {
+		//	Gdx.app.postRunnable(new Runnable(){//Has to be called in the rendering thread since OpenGL textures have to be created
+		//		@Override
+		//		public void run() {
 					generatePackedSprites();
-			//	}
-				
-			//});
+		//		}
+		
+		//	});
 	}
 
 }
