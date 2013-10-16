@@ -13,15 +13,15 @@ public class SpriterDisplay extends DisplayObject {
 
 	public SpriterDisplay(SpriterLoader loader,SpriteBatch batch,SpriterPlayer player) {
 		this.player = player;
-		drawer = new SpriterDrawer(null,batch);
+		drawer = new SpriterDrawer(batch);
 	}
 	
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
-		batch.end();
+		
 		drawer.draw(player);
-		batch.begin();
+		
 	}
 	
 	@Override
