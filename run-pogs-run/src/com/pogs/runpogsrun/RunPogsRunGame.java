@@ -1,18 +1,15 @@
 package com.pogs.runpogsrun;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.brashmonkey.spriter.Spriter;
 import com.brashmonkey.spriter.player.SpriterPlayer;
-import com.brashmonkey.spriter.xml.FileHandleSCMLReader;
+import com.game.framework.manager.ScreenManager;
+import com.pogs.runpogsrun.display.screen.LoadingScreen;
+import com.pogs.runpogsrun.display.screen.MainScreen;
 import com.pogs.runpogsrun.util.SpriterDrawer;
-import com.pogs.runpogsrun.util.SpriterLoader;
 
-public class RunPogsRunGame implements ApplicationListener {
+public class RunPogsRunGame extends Game {
 
 	private Stage stage;
 	private SpriteBatch batch;
@@ -21,6 +18,11 @@ public class RunPogsRunGame implements ApplicationListener {
 
 	@Override
 	public void create() {
+		ScreenManager.getInstance().initialize(this);
+		ScreenManager.getInstance().addScreen(MainScreen.class);
+		ScreenManager.getInstance().addScreen(LoadingScreen.class);
+		ScreenManager.getInstance().setScreen(LoadingScreen.class);
+		/*
 		batch = new SpriteBatch();
 		this.stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
 				false, this.batch);
@@ -31,8 +33,10 @@ public class RunPogsRunGame implements ApplicationListener {
 		player.setAnimation("idle", 1, 20);
 		
 		drawer = new SpriterDrawer(batch);
+		*/
+		
 	}
-
+	/*
 	@Override
 	public void resize(int width, int height) {
 	}
@@ -61,5 +65,6 @@ public class RunPogsRunGame implements ApplicationListener {
 	@Override
 	public void dispose() {
 	}
+	*/
 	
 }
