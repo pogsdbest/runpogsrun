@@ -60,9 +60,9 @@ public class DisplayScreen extends Stage implements Screen {
 	public void render(float delta) {
 		// TODO Auto-generated method stub
 		GLCommon gl = Gdx.gl;
-		gl.glClearColor(1, 1, 1, 1);
+		gl.glClearColor(0, 0, 0, 0);
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		//draw tile maps 
+		//draw tile maps
 		//batch.setProjectionMatrix(camera.combined);
 		
 		drawTileMapLayers();

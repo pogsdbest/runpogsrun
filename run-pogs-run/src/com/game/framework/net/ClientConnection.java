@@ -7,7 +7,7 @@ import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.utils.Disposable;
 import com.game.framework.utils.L;
 
-public class ClientConnection implements Runnable, Disposable {
+public class ClientConnection implements Runnable, Disposable , ConnectionCallback {
 
 	private Socket socket;
 	private InputStream inputStream;
@@ -15,34 +15,31 @@ public class ClientConnection implements Runnable, Disposable {
 	private Thread thread;
 	private boolean isConnected;
 	private ConnectionCallback callback;
-	private NetworkServer server;
 
-	public ClientConnection(NetworkServer server ,Socket socket,ConnectionCallback callback) {
-		this.server = server;
+	public ClientConnection(Socket socket) {
 		this.socket = socket;
-		this.callback = callback;
 		this.inputStream = socket.getInputStream();
 		this.outputStream = socket.getOutputStream();
+		this.callback = this;
 		this.thread = new Thread(this);
 		thread.start();
-
-		setConnected(true);
-		callback.onConnect(socket);
+		isConnected = true;
 	}
 
 	@Override
 	public void dispose() {
 		try {
 			if (socket != null) {
+				socket.dispose();
 				inputStream.close();
 				outputStream.close();
-				socket.dispose();
+				
+				L.wtf("client connection end...");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			error("Error at dispose...");
 		}
-		L.wtf("client connection end...");
 	}
 
 	@Override
@@ -58,11 +55,11 @@ public class ClientConnection implements Runnable, Disposable {
 			e.printStackTrace();
 			error("Error while retreiving data...");
 		} finally {
-			setConnected(false);
+			isConnected = false;
 			dispose();
 			end();
 		}
-		L.wtf("thread end...");
+		L.wtf("client thread end...");
 	}
 	
 	public void sendData(byte[] data) {
@@ -79,10 +76,6 @@ public class ClientConnection implements Runnable, Disposable {
 	public boolean isConnected() {
 		return isConnected;
 	}
-
-	public void setConnected(boolean isConnected) {
-		this.isConnected = isConnected;
-	}
 	
 	public void error(String txt) {
 		L.e(txt);
@@ -91,7 +84,31 @@ public class ClientConnection implements Runnable, Disposable {
 	
 	public void end() {
 		callback.onEnd();
-		server.removeClient(this);
+	}
+	
+	public void setCallback(ConnectionCallback callback) {
+		this.callback = callback;
+	}
+	
+	public void close() {
+		isConnected = false;
+		dispose();
+	}
+
+	@Override
+	public void onConnect(Socket socket) {
+	}
+
+	@Override
+	public void onError() {
+	}
+
+	@Override
+	public void onEnd() {
+	}
+
+	@Override
+	public void onUpdate(byte[] data) {
 	}
 
 }

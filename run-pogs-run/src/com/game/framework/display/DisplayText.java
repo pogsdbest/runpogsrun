@@ -45,8 +45,8 @@ public class DisplayText extends Actor{
 			setWidth(getTextWidth());
 			setHeight(getTextHeight());
 		}
-		font.drawWrapped(this.batch, text, getX(), getY() + height , width,getAlignment());
-		super.draw(this.batch, parentAlpha);
+		font.drawWrapped(batch, text, getX(), getY() + height , width,getAlignment());
+		super.draw(batch, parentAlpha);
 	}
 
 	public String getText() {

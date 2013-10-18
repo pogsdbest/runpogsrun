@@ -33,7 +33,7 @@ import com.discobeard.spriter.dom.*;
  */
 public class SCMLReader {
 	
-	static SpriterData data;
+	public static SpriterData data;
 	
 	/**
 	 * Loads a whole spriter file.

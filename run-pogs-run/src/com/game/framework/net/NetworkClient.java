@@ -41,7 +41,7 @@ public class NetworkClient implements Runnable, Disposable {
 			isConnected = false;
 			error("connection failed to host " + host);
 			callback.onEnd();
-			// e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}
@@ -54,11 +54,12 @@ public class NetworkClient implements Runnable, Disposable {
 				inputStream.close();
 				outputStream.close();
 				socket.dispose();
+				L.wtf("client dispose...");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		L.wtf("client dispose...");
+		
 	}
 
 	@Override

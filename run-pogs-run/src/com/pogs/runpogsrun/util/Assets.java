@@ -46,7 +46,7 @@ public class Assets {
 		manager = new AssetManager();
 
 		// load texture packs
-		//manager.load("gfx/assets.pack", TextureAtlas.class);
+		manager.load("gfx/assets.pack", TextureAtlas.class);
 		
 		//load spriter
 
